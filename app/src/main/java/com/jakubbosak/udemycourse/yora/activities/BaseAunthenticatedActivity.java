@@ -9,6 +9,7 @@ public abstract class BaseAunthenticatedActivity extends BaseActivity {
     @Override
     protected final void onCreate(Bundle savedState){
         super.onCreate(savedState);
+
         if(!application.getAuth().getUser().isLoggedIn()){
             startActivity(new Intent(this, LoginActivity.class));
             finish();
