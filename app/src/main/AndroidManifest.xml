@@ -2,6 +2,12 @@
 
     package="com.jakubbosak.udemycourse.yora">
 
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.MEDIA_CONTENT_CONTROL"/>
+    <uses-permission android:name="android.permission.CAMERA"/>
+    <uses-permission android:name="android.permission.BIND_CHOOSER_TARGET_SERVICE"/>
+    
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -10,6 +16,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:name=".infrastructure.YoraApplication">
+
 
         <activity android:name=".activities.MainActivity">
             <intent-filter>
@@ -22,7 +29,15 @@
         <activity android:name=".activities.LoginNarrowActivity"/>
         <activity android:name=".activities.RegisterActivity"/>
         <activity android:name=".activities.ExternalLoginActivity"/>
-
+        <activity android:name=".activities.ProfileActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.CHOOSER"/>
+            </intent-filter>
+        </activity>
+        <activity android:name=".activities.ContactsActivity"/>
+        <activity android:name=".activities.SentMessagesActivity"/>
+        <activity android:name="com.soundcloud.android.crop.CropImageActivity"/>
+        <activity android:name=".activities.AuthenticationActivity"/>
     </application>
 
 </manifest>
