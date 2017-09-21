@@ -7,7 +7,9 @@
     <uses-permission android:name="android.permission.MEDIA_CONTENT_CONTROL"/>
     <uses-permission android:name="android.permission.CAMERA"/>
     <uses-permission android:name="android.permission.BIND_CHOOSER_TARGET_SERVICE"/>
-    
+    <uses-feature android:name="android.hardware.camera" />
+    <uses-permission android:name="android.permission.INTERNET"/>
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -34,10 +36,43 @@
                 <action android:name="android.intent.action.CHOOSER"/>
             </intent-filter>
         </activity>
-        <activity android:name=".activities.ContactsActivity"/>
+        <activity android:name=".activities.ContactsActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.ALL_APPS"/>
+            </intent-filter>
+        </activity>
         <activity android:name=".activities.SentMessagesActivity"/>
         <activity android:name="com.soundcloud.android.crop.CropImageActivity"/>
         <activity android:name=".activities.AuthenticationActivity"/>
+        <activity android:name=".activities.AddContactActivity"
+            android:theme="@style/AddContactTheme">
+            <intent-filter>
+                <action android:name="android.intent.action.ALL_APPS"/>
+            </intent-filter>
+        </activity>
+        <activity android:name=".activities.MessageActivity"/>
+        <activity android:name=".activities.ContactActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.ALL_APPS"/>
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".activities.NewMessageActivity"
+            android:screenOrientation="portrait">
+            <intent-filter>
+                <action android:name="android.intent.action.ALL_APPS"/>
+            </intent-filter>
+        </activity>
+        <activity android:name=".activities.SelectContactActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.ALL_APPS"/>
+            </intent-filter>
+        </activity>
+        <activity android:name=".activities.SendMessageActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.RUN"/>
+            </intent-filter>
+        </activity>
     </application>
 
 </manifest>

@@ -67,14 +67,8 @@ public class InMemoryAccountService extends BaseInMemoryService{
             @Override
             public void run() {
                 Account.LoginWithUsernameResponse response = new Account.LoginWithUsernameResponse();
-                String name = response.Username;
 
-
-                if (Objects.equals(name,"nelson")) {
-                    response.setPropertyErrors("userName", "Invalid username or password");
-                }
-
-                loginUser(response);
+                loginUser(new Account.UserResponse());
                 bus.post(response);
             }
         },1000,2000);
@@ -126,14 +120,20 @@ public class InMemoryAccountService extends BaseInMemoryService{
         },1000,2000);
     }
 
+    @Subscribe
+    public void updateGcmRegistration(Account.UpdateGcmRegistrationRequest request){
+        postDelayed(new Account.UpdateGcmRegistrationResponse());
+    }
+
     private void loginUser(Account.UserResponse response){
         Auth auth = application.getAuth();
         User user = auth.getUser();
 
-        user.setDisplayName("Nelson LaQuet");
-        user.setUserName("NelsonLaQuet");
-        user.setEmail("nelson@3dbuzz.com");
+        user.setDisplayName("Karol");
+        user.setUserName("Karol Bosak");
+        user.setEmail("karolbosak@gmail.com");
         user.setAvatarUrl("http://www.gravatar.com/avatar/1?d=identicon");
+        user.setId(123);
         user.setLoggedIn(true);
 
         bus.post(new Account.UserDetailsUpdatedEvent(user));

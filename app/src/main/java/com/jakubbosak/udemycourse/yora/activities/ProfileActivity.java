@@ -30,6 +30,7 @@ import com.jakubbosak.udemycourse.yora.services.Account;
 import com.jakubbosak.udemycourse.yora.views.MainNavDrawer;
 import com.soundcloud.android.crop.Crop;
 import com.squareup.otto.Subscribe;
+import com.squareup.picasso.Picasso;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -88,6 +89,7 @@ public class ProfileActivity extends BaseAunthenticatedActivity implements View.
 
         User user = application.getAuth().getUser();
         getSupportActionBar().setTitle(user.getDisplayName());
+        Picasso.with(this).load(user.getAvatarUrl()).into(avatarView);
 
         if (savedState == null) {
             displayNameText.setText(user.getDisplayName());
@@ -102,8 +104,9 @@ public class ProfileActivity extends BaseAunthenticatedActivity implements View.
     }
 
     @Subscribe
-    public void onUserDetailsChanged(Account.UserDetailsUpdatedEvent event) {
+    public void onUserDetailsUpdated(Account.UserDetailsUpdatedEvent event) {
         getSupportActionBar().setTitle(event.user.getDisplayName());
+        Picasso.with(this).load(event.user.getAvatarUrl()).into(avatarView);
     }
 
     @Override

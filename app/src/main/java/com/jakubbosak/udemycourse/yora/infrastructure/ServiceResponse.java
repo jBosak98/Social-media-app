@@ -6,6 +6,7 @@ import android.util.Log;
 import android.widget.Toast;
 
 import java.util.HashMap;
+import java.util.TreeMap;
 
 public abstract class ServiceResponse {
     private static final String TAG = "ServiceResponse";
@@ -13,6 +14,7 @@ public abstract class ServiceResponse {
     private String operationError;
     private HashMap<String, String> propertyErrors;
     private boolean isCritical;
+    private TreeMap<String, String> propertyErrorsCaaseInsensative;
 
     public ServiceResponse(){
         propertyErrors = new HashMap<>();
@@ -37,11 +39,21 @@ public abstract class ServiceResponse {
     public void setIsCritical(boolean isCritical){
         this.isCritical = isCritical;
     }
+    public void setCriticalError(String criticalError){
+        isCritical = true;
+        operationError = criticalError;
+    }
     public void setPropertyErrors(String property, String error){
         propertyErrors.put(property,error);
     }
     public String getPropertyError(String property){
-        return propertyErrors.get(property);
+        if(propertyErrorsCaaseInsensative == null || propertyErrorsCaaseInsensative.size() != propertyErrors.size()){
+            propertyErrorsCaaseInsensative = new TreeMap<>(String.CASE_INSENSITIVE_ORDER);
+            propertyErrorsCaaseInsensative.putAll(propertyErrors);
+
+        }
+
+        return propertyErrorsCaaseInsensative.get(property);
     }
     public boolean didSucceed(){
         return (operationError == null || operationError.isEmpty()) && (propertyErrors.size() == 0);

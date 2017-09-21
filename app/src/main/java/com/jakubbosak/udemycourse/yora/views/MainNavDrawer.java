@@ -17,6 +17,7 @@ import com.jakubbosak.udemycourse.yora.infrastructure.YoraApplication;
 import com.jakubbosak.udemycourse.yora.services.Account;
 import com.squareup.otto.Bus;
 import com.squareup.otto.Subscribe;
+import com.squareup.picasso.Picasso;
 
 public class MainNavDrawer extends NavDrawer{
     private final TextView displayNameText;
@@ -38,18 +39,19 @@ public class MainNavDrawer extends NavDrawer{
                 Toast.makeText(activity,"You have logged out!", Toast.LENGTH_LONG).show();
             }
         });
-        displayNameText = (TextView) navDraverView.findViewById(R.id.include_main_nav_drawer_displayName);
-        avatarImage = (ImageView) navDraverView.findViewById(R.id.include_main_nav_drawer_avatar);
+        displayNameText = (TextView) navDrawerView.findViewById(R.id.include_main_nav_drawer_displayName);
+        avatarImage = (ImageView) navDrawerView.findViewById(R.id.include_main_nav_drawer_avatar);
 
         User loggedInUser = activity.getYoraApplication().getAuth().getUser();
         displayNameText.setText(loggedInUser.getDisplayName());
 
-        //todo: change avatarImage to avatarUrl from loggedInUser
+        Picasso.with(activity).load(loggedInUser.getAvatarUrl()).into(avatarImage);
+
     }
 
     @Subscribe
     public void onUserDetailsUpdated(Account.UserDetailsUpdatedEvent event){
-        //todo: update avatar url
+        Picasso.with(activity).load(event.user.getAvatarUrl()).into(avatarImage);
         displayNameText.setText(event.user.getDisplayName());
     }
 }

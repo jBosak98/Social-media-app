@@ -25,15 +25,15 @@ public class NavDrawer {
 
     protected BaseActivity activity;
     protected DrawerLayout drawerLayout;
-    protected ViewGroup navDraverView;
+    protected ViewGroup navDrawerView;
 
     public NavDrawer(BaseActivity activity) {
         this.activity = activity;
         items = new ArrayList<>();
         drawerLayout = (DrawerLayout) activity.findViewById(R.id.drawer_layout);
-        navDraverView = (ViewGroup) activity.findViewById(R.id.nav_drawer);
+        navDrawerView = (ViewGroup) activity.findViewById(R.id.nav_drawer);
 
-        if(drawerLayout == null || navDraverView == null){
+        if(drawerLayout == null || navDrawerView == null){
             throw  new RuntimeException(("To use this class, " +
                     "you must have views with the ids of drawer_layout and nav_drawer"));
         }
@@ -79,7 +79,7 @@ public class NavDrawer {
     public void create(){
         LayoutInflater inflater = activity.getLayoutInflater();
         for(NavDrawerItem item : items){
-            item.inflate(inflater, navDraverView);
+            item.inflate(inflater, navDrawerView);
         }
 
     }
@@ -175,6 +175,7 @@ public class NavDrawer {
         @Override
         public void onClick(View view) {
             navDrawer.setSelectedItem(this);
+
 
         }
 

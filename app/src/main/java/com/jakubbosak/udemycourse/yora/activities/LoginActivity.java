@@ -54,7 +54,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
             startActivityForResult(new Intent(this,LoginNarrowActivity.class), REQUEST_NARROW_LOGIN);
         } else if(view == registerButton){
             startActivityForResult(new Intent(this,RegisterActivity.class), REQUEST_REGISTER);
-        } else if(view ==googleLoginButton){
+        } else if(view == googleLoginButton){
             doExternalLogin("Google");
         } else if(view == facebookLoginButton){
             doExternalLogin("Facebook");

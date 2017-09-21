@@ -1,36 +1,58 @@
 package com.jakubbosak.udemycourse.yora.activities;
 
 import android.animation.Animator;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.LayoutRes;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.DisplayMetrics;
 import android.view.View;
 
 import com.jakubbosak.udemycourse.yora.R;
+import com.jakubbosak.udemycourse.yora.infrastructure.ActionScheduler;
 import com.jakubbosak.udemycourse.yora.infrastructure.YoraApplication;
 import com.jakubbosak.udemycourse.yora.services.BusService;
 import com.jakubbosak.udemycourse.yora.views.NavDrawer;
 
 
-public abstract class BaseActivity extends AppCompatActivity {
+public abstract class BaseActivity extends AppCompatActivity implements SwipeRefreshLayout.OnRefreshListener {
     protected YoraApplication application;
     protected Toolbar toolbar;
     protected NavDrawer navDrawer;
     protected boolean isTablet;
     protected BusService bus;
+    protected ActionScheduler scheduler;
+    protected SwipeRefreshLayout swipeRefresh;
 
     @Override
     protected void onCreate(Bundle savedState){
         super.onCreate(savedState);
         application = (YoraApplication) getApplication();
         bus = application.getBus();
+        scheduler = new ActionScheduler(application);
 
         DisplayMetrics metrics = getResources().getDisplayMetrics();
         isTablet = (metrics.widthPixels/metrics.density) >= 600;
 
         bus.register(this);
+    }
+
+    public ActionScheduler getScheduler(){
+        return scheduler;
+    }
+
+    @Override
+    protected void onResume(){
+        super.onResume();
+        scheduler.onResume();
+    }
+
+    @Override
+    protected void onPause(){
+        super.onPause();
+        scheduler.onPause();
     }
 
     @Override
@@ -46,8 +68,18 @@ public abstract class BaseActivity extends AppCompatActivity {
         super.setContentView(layoutResId);
 
         toolbar = (Toolbar) findViewById(R.id.include_toolbar);
-        if(toolbar != null)
+        if(toolbar != null){
             setSupportActionBar(toolbar);
+        }
+        swipeRefresh = (SwipeRefreshLayout) findViewById(R.id.swipe_refresh);
+        if(swipeRefresh != null) {
+            swipeRefresh.setOnRefreshListener(this);
+            swipeRefresh.setColorSchemeColors(
+                    Color.parseColor("#FF00DDFF"),
+                    Color.parseColor("#FF99CC00"),
+                    Color.parseColor("#FFFFBB33"),
+                    Color.parseColor("#FFFF4444"));
+        }
     }
 
     public void fadeOut(final FadeOutListener listener){
@@ -93,6 +125,11 @@ public abstract class BaseActivity extends AppCompatActivity {
     }
     public YoraApplication getYoraApplication(){
         return application;
+    }
+
+    @Override
+    public void onRefresh() {
+
     }
 
     public interface FadeOutListener{
